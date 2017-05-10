@@ -23,11 +23,7 @@ namespace MyFirstWebsite.Controllers
             return View(model);
         }
         [HttpPost]
-        public ActionResult Login(LoginModel model)
-        {
-                     return View(model);
-        }
-        public ActionResult LogIn (LoginModel model)
+        public ActionResult Login (LoginModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -48,6 +44,21 @@ namespace MyFirstWebsite.Controllers
             }
             ModelState.AddModelError("", "Invalid email or password");
             return View(model);
+        }
+        public ActionResult Logout()
+        {
+            var ctx = Request.GetOwinContext();
+            var authManager = ctx.Authentication;
+            authManager.SignOut("ApplicationCookie");
+            return RedirectToAction("Login", "Auth");
+        }
+        private string GetRedirectUrl(string returnUrl)
+        {
+            if(string.IsNullOrEmpty(returnUrl) || !Url.IsLocalUrl(returnUrl))
+            {
+                return Url.Action("index","home");
+            }
+            return returnUrl;
         }
     }
 }
