@@ -15,5 +15,6 @@ namespace MyFirstWebsite
 
         }
         public DbSet<Users> Users{get; set; }
+        public DbSet<Lists> Lists { get; set; }
     }
 }
